@@ -21,6 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.toggle('menu-open', !open);
   });
   navLinks.forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && nav.classList.contains('open')) {
+      closeMenu();
+      menuButton.focus();
+    }
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 960 && nav.classList.contains('open')) closeMenu();
+  });
 
   const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 30);
   onScroll();
