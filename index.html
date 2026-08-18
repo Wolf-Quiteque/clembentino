@@ -29,6 +29,7 @@
       </button>
       <nav class="nav-links" id="nav-principal" aria-label="Navegação principal">
         <a class="active" href="#inicio">Início</a>
+        <a href="#evento">Evento</a>
         <a href="#servicos">Serviços</a>
         <a href="#sobre">Sobre nós</a>
         <a href="#portfolio">Portfólio</a>
@@ -53,6 +54,34 @@
       </div>
       <div class="hero-side-note" aria-hidden="true">ESTRATÉGIA · CRIATIVIDADE · IMPACTO</div>
       <a class="scroll-cue" href="#impacto" aria-label="Continuar para estatísticas"><i data-lucide="arrow-down"></i></a>
+    </section>
+
+    <section class="event-section" id="evento" aria-labelledby="event-title">
+      <div class="event-glow" aria-hidden="true"></div>
+      <div class="container event-grid">
+        <div class="event-poster-wrap reveal">
+          <span class="event-edition">Outubro Rosa · 2026</span>
+          <img src="assets/evento.jpeg" alt="Cartaz da conferência Aprenda e Empreenda com Elas" width="1280" height="1600" loading="lazy">
+          <div class="event-date-badge" aria-label="23 de Outubro às 8 horas"><strong>23</strong><span>OUT<br>08H</span></div>
+        </div>
+        <div class="event-copy reveal">
+          <p class="eyebrow event-eyebrow"><span></span> Próximo evento</p>
+          <p class="event-kicker">Conferência Nacional de Empreendedorismo</p>
+          <h2 id="event-title">Aprenda &amp;<br><em>Empreenda com Elas.</em></h2>
+          <p class="event-intro">Conecta-te a uma comunidade de mulheres que transforma ideias em negócios, desafios em oportunidades e sonhos em impacto real — nesta edição especial do Outubro Rosa.</p>
+          <div class="event-details" aria-label="Informações do evento">
+            <div><i data-lucide="calendar-days"></i><span><small>Data</small><strong>23 de Outubro de 2026</strong></span></div>
+            <div><i data-lucide="clock-3"></i><span><small>Horário</small><strong>08h00</strong></span></div>
+            <div><i data-lucide="map-pin"></i><span><small>Local</small><strong>Palácio da Justiça · Cidade Alta</strong></span></div>
+          </div>
+          <p class="event-theme"><strong>Tema:</strong> Fortalecimento feminino, liderança, inovação e saúde — construindo negócios que transformam vidas.</p>
+          <div class="event-tags" aria-label="Temas da conferência"><span>Empreendedorismo</span><span>Liderança</span><span>Inovação</span><span>Saúde da mulher</span></div>
+          <div class="event-actions">
+            <a class="button event-button" href="https://wa.me/244942218877?text=Ol%C3%A1%20Clembetino%2C%20quero%20reservar%20bilhetes%20para%20a%20confer%C3%AAncia%20Aprenda%20%26%20Empreenda%20com%20Elas%2C%20no%20dia%2023%20de%20Outubro." target="_blank" rel="noopener">Reservar bilhetes agora <i data-lucide="ticket-check"></i></a>
+            <a class="event-partner-link" href="https://wa.me/244942218877?text=Ol%C3%A1%20Clembetino%2C%20gostaria%20de%20associar%20a%20minha%20marca%20%C3%A0%20confer%C3%AAncia%20Aprenda%20%26%20Empreenda%20com%20Elas." target="_blank" rel="noopener">E a sua marca, vai ficar de fora? <i data-lucide="arrow-up-right"></i></a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="stats" id="impacto" aria-label="O nosso impacto">
@@ -213,6 +242,27 @@
     </div>
     <div class="container footer-bottom"><span>© 2026 Clembetino. Todos os direitos reservados.</span><span>Feito com intenção em Luanda.</span><a href="#topo">Voltar ao topo <i data-lucide="arrow-up"></i></a></div>
   </footer>
+
+  <dialog class="event-modal" id="event-modal" aria-labelledby="event-modal-title" aria-describedby="event-modal-description">
+    <button class="event-modal-close" type="button" aria-label="Fechar anúncio do evento"><i data-lucide="x"></i></button>
+    <div class="event-modal-visual">
+      <img src="assets/evento.jpeg" alt="Cartaz do evento Aprenda e Empreenda com Elas" width="1280" height="1600">
+      <span>23 OUT · 08H00</span>
+    </div>
+    <div class="event-modal-content">
+      <p class="event-modal-label"><span></span> Evento em destaque</p>
+      <p class="event-modal-overline">Outubro Rosa · Luanda</p>
+      <h2 id="event-modal-title">Aprenda &amp;<br><em>Empreenda com Elas.</em></h2>
+      <p id="event-modal-description">Um dia de conhecimento, liderança, inovação, saúde, networking e oportunidades para mulheres que constroem o futuro.</p>
+      <div class="event-modal-meta">
+        <span><i data-lucide="calendar-days"></i><strong>23 de Outubro</strong></span>
+        <span><i data-lucide="clock-3"></i><strong>08h00</strong></span>
+        <span><i data-lucide="map-pin"></i><strong>Palácio da Justiça</strong></span>
+      </div>
+      <a class="button event-button" href="https://wa.me/244942218877?text=Ol%C3%A1%20Clembetino%2C%20quero%20reservar%20bilhetes%20para%20a%20confer%C3%AAncia%20Aprenda%20%26%20Empreenda%20com%20Elas%2C%20no%20dia%2023%20de%20Outubro." target="_blank" rel="noopener">Reservar os meus bilhetes <i data-lucide="ticket-check"></i></a>
+      <button class="event-modal-details" id="event-modal-details" type="button">Ver todos os detalhes</button>
+    </div>
+  </dialog>
 
   <a class="whatsapp-fab" href="https://wa.me/244942218877?text=Ol%C3%A1%20Clembetino%2C%20gostaria%20de%20falar%20sobre%20um%20projecto." target="_blank" rel="noopener" aria-label="Conversar no WhatsApp"><i data-lucide="message-circle"></i><span>Fale connosco</span></a>
 

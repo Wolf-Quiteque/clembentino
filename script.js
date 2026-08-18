@@ -110,6 +110,43 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   form.querySelectorAll('input, textarea').forEach(field => field.addEventListener('input', () => field.closest('.field').classList.remove('invalid')));
 
+  const eventModal = document.querySelector('#event-modal');
+  const eventModalClose = eventModal?.querySelector('.event-modal-close');
+  const eventModalDetails = document.querySelector('#event-modal-details');
+  const eventModalStorageKey = 'clembetino-evento-outubro-2026-seen';
+  const hasSeenEventModal = () => {
+    try { return sessionStorage.getItem(eventModalStorageKey) === 'true'; }
+    catch { return false; }
+  };
+  const markEventModalSeen = () => {
+    try { sessionStorage.setItem(eventModalStorageKey, 'true'); }
+    catch { /* The modal still works when storage is unavailable. */ }
+  };
+  const closeEventModal = () => {
+    if (!eventModal) return;
+    if (typeof eventModal.close === 'function') eventModal.close();
+    else eventModal.removeAttribute('open');
+  };
+  const showEventModal = () => {
+    if (!eventModal || hasSeenEventModal()) return;
+    if (nav.classList.contains('open')) {
+      window.setTimeout(showEventModal, 900);
+      return;
+    }
+    markEventModalSeen();
+    if (typeof eventModal.showModal === 'function') eventModal.showModal();
+    else eventModal.setAttribute('open', '');
+  };
+  eventModalClose?.addEventListener('click', closeEventModal);
+  eventModal?.addEventListener('click', event => {
+    if (event.target === eventModal) closeEventModal();
+  });
+  eventModalDetails?.addEventListener('click', () => {
+    closeEventModal();
+    document.querySelector('#evento')?.scrollIntoView({ behavior: 'smooth' });
+  });
+  if (!hasSeenEventModal()) window.setTimeout(showEventModal, 900);
+
   const cookieBanner = document.querySelector('.cookie-banner');
   if (localStorage.getItem('clembetino-cookie-choice')) cookieBanner.classList.add('hidden');
   document.querySelector('#cookie-accept').addEventListener('click', () => {
