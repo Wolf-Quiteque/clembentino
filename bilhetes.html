@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Montserrat:wght@600;700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=3">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
-  <script src="tickets.js?v=2" defer></script>
+  <script src="tickets.js?v=3" defer></script>
 </head>
 <body class="bilhetes-page">
   <a class="back-home" href="index.html" aria-label="Voltar à página inicial">
@@ -45,6 +45,20 @@
               <p>Toque numa zona para a seleccionar.</p>
             </div>
             <div class="wizard-sectors" id="wizard-sectors"></div>
+
+            <div class="wizard-picked" id="wizard-picked" hidden>
+              <div class="wz-picked-card" id="wz-picked-card" role="button" tabindex="0" aria-label="Sector seleccionado — toque para alterar">
+                <span class="wz-picked-x" title="Desmarcar sector"><i data-lucide="x"></i></span>
+                <span class="wz-picked-media"><img id="wz-picked-img" src="" alt=""></span>
+                <span class="wz-picked-body">
+                  <span class="wz-picked-label">Sector seleccionado</span>
+                  <strong class="wz-picked-name" id="wz-picked-name"></strong>
+                  <span class="wz-picked-price" id="wz-picked-price"></span>
+                </span>
+                <span class="wz-picked-hint">Toque para alterar</span>
+              </div>
+            </div>
+
             <div class="wizard-actions wizard-actions--single">
               <button class="button event-button wz-next" id="wz-next-1" type="button" disabled>Continuar <i data-lucide="arrow-right"></i></button>
             </div>

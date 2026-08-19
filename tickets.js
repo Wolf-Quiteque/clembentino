@@ -19,6 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const state = { sector: null, qty: 1, step: 1 };
 
   const sectorsEl = document.querySelector('#wizard-sectors');
+  const pickedEl = document.querySelector('#wizard-picked');
+  const pickedCard = document.querySelector('#wz-picked-card');
+  const pickedImg = document.querySelector('#wz-picked-img');
+  const pickedName = document.querySelector('#wz-picked-name');
+  const pickedPrice = document.querySelector('#wz-picked-price');
   const next1 = document.querySelector('#wz-next-1');
   const next2 = document.querySelector('#wz-next-2');
   const back2 = document.querySelector('#wz-back-2');
@@ -40,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sector = () => SECTORS.find(s => s.id === state.sector);
   const swatch = c => c === 'pb' ? '<i class="s-pink"></i><i class="s-black"></i>' : '<i class="s-pink"></i><i class="s-white"></i>';
   const pop = el => { if (!el) return; el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); };
+  const retrigger = el => { el.classList.remove('is-active'); void el.offsetWidth; el.classList.add('is-active'); };
 
   function renderSectors() {
     sectorsEl.innerHTML = SECTORS.map(s => {
@@ -62,6 +68,38 @@ document.addEventListener('DOMContentLoaded', () => {
       </button>`;
     }).join('');
     if (window.lucide) lucide.createIcons();
+  }
+
+  function renderPicked() {
+    const s = sector();
+    pickedImg.src = s.img;
+    pickedImg.alt = 'Mapa de assentos — ' + s.name;
+    pickedName.textContent = s.name;
+    pickedPrice.textContent = fmt(s.price) + ' Kz / lugar';
+  }
+
+  function selectSector(id) {
+    state.sector = id;
+    renderPicked();
+    sectorsEl.hidden = true;
+    pickedEl.hidden = false;
+    retrigger(pickedEl);
+    next1.disabled = false;
+  }
+
+  function deselect() {
+    state.sector = null;
+    document.querySelectorAll('.wz-sector').forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed', 'false'); });
+    pickedEl.hidden = true;
+    sectorsEl.hidden = false;
+    retrigger(sectorsEl);
+    next1.disabled = true;
+  }
+
+  function showGrid() {
+    pickedEl.hidden = true;
+    sectorsEl.hidden = false;
+    retrigger(sectorsEl);
   }
 
   function showStep(n) {
@@ -113,16 +151,21 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="wz-sum-row"><span>Telefone</span><strong>${telInput.value.trim()}</strong></div>`;
   }
 
-  // Step 1 — select a sector
+  // Step 1 — select a sector (collapse on pick)
   sectorsEl.addEventListener('click', e => {
     const btn = e.target.closest('.wz-sector');
     if (!btn || btn.disabled) return;
-    state.sector = btn.dataset.id;
     document.querySelectorAll('.wz-sector').forEach(b => {
       b.classList.toggle('selected', b === btn);
       b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
     });
-    next1.disabled = false;
+    selectSector(btn.dataset.id);
+  });
+
+  // Deselect via the X / clicking the picked card again
+  pickedCard.addEventListener('click', deselect);
+  pickedCard.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); deselect(); }
   });
 
   next1.addEventListener('click', () => {
@@ -140,11 +183,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   [nomeInput, telInput].forEach(inp => inp.addEventListener('input', () => { inp.closest('.field').classList.remove('invalid'); statusEl.textContent = ''; }));
 
-  back2.addEventListener('click', () => showStep(1));
+  back2.addEventListener('click', () => { showGrid(); showStep(1); });
 
   next2.addEventListener('click', () => {
     let valid = true;
-    [[nomeInput], [telInput]].forEach(([inp]) => {
+    [nomeInput, telInput].forEach(inp => {
       const ok = inp.value.trim().length > 0;
       inp.closest('.field').classList.toggle('invalid', !ok);
       if (!ok) valid = false;
