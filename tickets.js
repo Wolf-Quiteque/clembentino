@@ -1,0 +1,183 @@
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.lucide) lucide.createIcons();
+
+  const SECTORS = [
+    { id: 'frente-central', name: 'Frente Central', price: 35000, available: 11, total: 38, color: 'pw', img: 'assets/seat-front-center.jpg' },
+    { id: 'frente-lateral-esquerda', name: 'Frente Lateral Esquerda', price: 30000, available: 20, total: 40, color: 'pb', img: 'assets/seat-front-left.jpg' },
+    { id: 'frente-lateral-direita', name: 'Frente Lateral Direita', price: 30000, available: 20, total: 40, color: 'pb', img: 'assets/seat-front-right.jpg' },
+    { id: 'centro-1', name: 'Centro 1', price: 25000, available: 55, total: 105, color: 'pw', img: 'assets/seat-center-1.jpg' },
+    { id: 'traseira-lateral-direita-1', name: 'Traseira Lateral Direita 1', price: 20000, available: 40, total: 91, color: 'pb', img: 'assets/seat-back-right-1.jpg', note: '5 primeiras filas da frente' },
+    { id: 'traseira-lateral-esquerda-1', name: 'Traseira Lateral Esquerda 1', price: 20000, available: 40, total: 91, color: 'pb', img: 'assets/seat-back-left-1.jpg', note: '5 primeiras filas da frente' },
+    { id: 'centro-traseiro-2', name: 'Centro Traseiro 2', price: 17500, available: 56, total: 56, color: 'pw', img: 'assets/seat-center-back-2.jpg' },
+    { id: 'traseira-lateral-esquerda-3', name: 'Traseira Lateral Esquerda 3', price: 10000, available: 15, total: 15, color: 'pw', img: 'assets/seat-back-left-3.jpg' },
+    { id: 'centro-traseiro-1', name: 'Centro Traseiro 1', price: 7500, available: 26, total: 51, color: 'pb', img: 'assets/seat-center-back-1.jpg' },
+    { id: 'traseira-lateral-direita', name: 'Traseira Lateral Direita', price: 0, available: 0, total: 32, color: 'pb', img: 'assets/seat-back-right-soldout.jpg', soldout: true },
+    { id: 'traseira-frente', name: 'Traseira Frente', price: 0, available: 0, total: 12, color: 'pb', img: 'assets/seat-back-front-soldout.jpg', soldout: true },
+  ];
+
+  const fmt = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const state = { sector: null, qty: 1, step: 1 };
+
+  const sectorsEl = document.querySelector('#wizard-sectors');
+  const next1 = document.querySelector('#wz-next-1');
+  const next2 = document.querySelector('#wz-next-2');
+  const back2 = document.querySelector('#wz-back-2');
+  const back3 = document.querySelector('#wz-back-3');
+  const confirmBtn = document.querySelector('#wz-confirm');
+  const qtyMinus = document.querySelector('#wz-minus');
+  const qtyPlus = document.querySelector('#wz-plus');
+  const qtyVal = document.querySelector('#wz-qty');
+  const qtyLabel = document.querySelector('#wz-qty-label');
+  const availEl = document.querySelector('#wz-avail');
+  const subtotalEl = document.querySelector('#wz-subtotal');
+  const selectedEl = document.querySelector('#wizard-selected');
+  const summaryEl = document.querySelector('#wizard-summary');
+  const statusEl = document.querySelector('#wz-status');
+  const nomeInput = document.querySelector('#tk-nome');
+  const telInput = document.querySelector('#tk-telefone');
+  const dialog = document.querySelector('#tk-dialog');
+
+  const sector = () => SECTORS.find(s => s.id === state.sector);
+  const swatch = c => c === 'pb' ? '<i class="s-pink"></i><i class="s-black"></i>' : '<i class="s-pink"></i><i class="s-white"></i>';
+  const pop = el => { if (!el) return; el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); };
+
+  function renderSectors() {
+    sectorsEl.innerHTML = SECTORS.map(s => {
+      const soldout = s.available <= 0;
+      return `<button type="button" class="wz-sector${soldout ? ' soldout' : ''}" data-id="${s.id}"${soldout ? ' disabled' : ''} aria-pressed="false">
+        <span class="wz-sector-media">
+          <img src="${s.img}" alt="Mapa de assentos — ${s.name}" loading="lazy">
+          <span class="tk-swatch">${swatch(s.color)}</span>
+          ${soldout ? '<span class="wz-soldout-tag">Esgotado</span>' : ''}
+        </span>
+        <span class="wz-sector-body">
+          <span class="wz-sector-name">${s.name}</span>
+          <span class="wz-sector-meta">
+            <span class="wz-sector-price">${soldout ? '—' : fmt(s.price) + ' Kz'}</span>
+            <span class="wz-sector-avail">${soldout ? 'Esgotado' : s.available + ' disponíveis'}</span>
+          </span>
+          ${s.note ? `<span class="wz-sector-note">${s.note}</span>` : ''}
+        </span>
+        <span class="wz-check"><i data-lucide="check"></i></span>
+      </button>`;
+    }).join('');
+    if (window.lucide) lucide.createIcons();
+  }
+
+  function showStep(n) {
+    state.step = n;
+    document.querySelectorAll('.wizard-step').forEach(s => {
+      const active = Number(s.dataset.step) === n;
+      s.hidden = !active;
+      if (active) { s.classList.remove('is-active'); void s.offsetWidth; s.classList.add('is-active'); }
+      else s.classList.remove('is-active');
+    });
+    document.querySelectorAll('.wizard-progress li').forEach(li => {
+      const st = Number(li.dataset.step);
+      li.classList.toggle('active', st === n);
+      li.classList.toggle('done', st < n);
+    });
+    document.querySelector('#wizard-fill').style.width = (((n - 1) / 2) * 100) + '%';
+    document.querySelector('#wizard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderSelected() {
+    const s = sector();
+    selectedEl.innerHTML = `
+      <div class="wz-sel-media"><img src="${s.img}" alt="Mapa de assentos — ${s.name}"></div>
+      <div class="wz-sel-body">
+        <span class="wz-sel-label">Sector seleccionado</span>
+        <h3>${s.name}</h3>
+        <span class="wz-sel-price">${fmt(s.price)} Kz <em>/ lugar</em></span>
+      </div>`;
+  }
+
+  function renderQty() {
+    const s = sector();
+    qtyVal.textContent = state.qty;
+    qtyLabel.textContent = state.qty === 1 ? 'lugar' : 'lugares';
+    availEl.textContent = `${s.available} disponíveis neste sector`;
+    subtotalEl.textContent = fmt(s.price * state.qty) + ' Kz';
+    qtyMinus.disabled = state.qty <= 1;
+    qtyPlus.disabled = state.qty >= s.available;
+  }
+
+  function renderSummary() {
+    const s = sector();
+    summaryEl.innerHTML = `
+      <div class="wz-sum-row"><span>Sector</span><strong>${s.name}</strong></div>
+      <div class="wz-sum-row"><span>Lugares</span><strong>${state.qty}</strong></div>
+      <div class="wz-sum-row"><span>Preço / lugar</span><strong>${fmt(s.price)} Kz</strong></div>
+      <div class="wz-sum-row wz-sum-total"><span>Total</span><strong>${fmt(s.price * state.qty)} Kz</strong></div>
+      <div class="wz-sum-row"><span>Nome</span><strong>${nomeInput.value.trim()}</strong></div>
+      <div class="wz-sum-row"><span>Telefone</span><strong>${telInput.value.trim()}</strong></div>`;
+  }
+
+  // Step 1 — select a sector
+  sectorsEl.addEventListener('click', e => {
+    const btn = e.target.closest('.wz-sector');
+    if (!btn || btn.disabled) return;
+    state.sector = btn.dataset.id;
+    document.querySelectorAll('.wz-sector').forEach(b => {
+      b.classList.toggle('selected', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    next1.disabled = false;
+  });
+
+  next1.addEventListener('click', () => {
+    if (!state.sector) return;
+    state.qty = 1;
+    renderSelected();
+    renderQty();
+    statusEl.textContent = '';
+    showStep(2);
+  });
+
+  // Step 2 — quantity + data
+  qtyMinus.addEventListener('click', () => { if (state.qty > 1) { state.qty--; renderQty(); pop(qtyVal); pop(subtotalEl); } });
+  qtyPlus.addEventListener('click', () => { if (state.qty < sector().available) { state.qty++; renderQty(); pop(qtyVal); pop(subtotalEl); } });
+
+  [nomeInput, telInput].forEach(inp => inp.addEventListener('input', () => { inp.closest('.field').classList.remove('invalid'); statusEl.textContent = ''; }));
+
+  back2.addEventListener('click', () => showStep(1));
+
+  next2.addEventListener('click', () => {
+    let valid = true;
+    [[nomeInput], [telInput]].forEach(([inp]) => {
+      const ok = inp.value.trim().length > 0;
+      inp.closest('.field').classList.toggle('invalid', !ok);
+      if (!ok) valid = false;
+    });
+    if (!valid) { statusEl.textContent = 'Preencha o nome e o telefone para continuar.'; statusEl.style.color = '#c84235'; return; }
+    statusEl.textContent = '';
+    renderSummary();
+    showStep(3);
+  });
+
+  back3.addEventListener('click', () => showStep(2));
+
+  // Step 3 — confirm
+  confirmBtn.addEventListener('click', () => {
+    const s = sector();
+    const ref = 'CLEM-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+    document.querySelector('#tk-dialog-summary').innerHTML =
+      `<div class="ds-row"><span>${s.name} × ${state.qty}</span><strong>${fmt(s.price * state.qty)} Kz</strong></div>` +
+      `<div class="ds-row ds-total"><span>Total (${state.qty} ${state.qty === 1 ? 'lugar' : 'lugares'})</span><strong>${fmt(s.price * state.qty)} Kz</strong></div>`;
+    document.querySelector('#tk-ref').textContent = ref;
+    if (typeof dialog.showModal === 'function') dialog.showModal(); else dialog.setAttribute('open', '');
+  });
+
+  document.querySelector('#tk-whatsapp').addEventListener('click', () => {
+    const s = sector();
+    const msg = `Olá Clembetino! Pretendo reservar bilhetes para a conferência Aprenda & Empreenda com Elas (23 Out, 08h00).\n\n• ${s.name} — ${state.qty} × ${fmt(s.price)} Kz\n\nTotal: ${fmt(s.price * state.qty)} Kz\nNome: ${nomeInput.value.trim()}\nTelefone: ${telInput.value.trim()}`;
+    window.open(`https://wa.me/244942218877?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+  });
+
+  const closeDialog = () => { if (typeof dialog.close === 'function') dialog.close(); else dialog.removeAttribute('open'); };
+  dialog.querySelector('.tk-dialog-close').addEventListener('click', closeDialog);
+  document.querySelector('#tk-done').addEventListener('click', closeDialog);
+  dialog.addEventListener('click', e => { if (e.target === dialog) closeDialog(); });
+
+  renderSectors();
+});

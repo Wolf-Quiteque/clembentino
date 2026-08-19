@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-AO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f1f2e">
+  <meta name="description" content="Compre bilhetes para a conferência Aprenda & Empreenda com Elas — Clembetino, Luanda.">
+  <title>Bilhetes | Clembetino</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Montserrat:wght@600;700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="tickets.js" defer></script>
+</head>
+<body class="bilhetes-page">
+  <a class="back-home" href="index.html" aria-label="Voltar à página inicial">
+    <i data-lucide="arrow-left"></i><span>Voltar ao início</span>
+  </a>
+
+  <main id="conteudo">
+    <section class="tickets" id="bilhetes" aria-labelledby="tickets-title">
+      <div class="container">
+        <div class="wizard" id="wizard">
+
+          <div class="wizard-head">
+            <p class="eyebrow"><span></span> Bilhetes</p>
+            <h1 id="tickets-title">Reserve o seu <em>lugar.</em></h1>
+            <p class="wizard-sub">Simples e rápido — escolha o sector, preencha os dados e confirme.</p>
+          </div>
+
+          <nav class="wizard-progress" aria-label="Progresso da reserva">
+            <ol>
+              <li class="active" data-step="1"><span class="wz-num">1</span><span class="wz-label">Sector</span></li>
+              <li data-step="2"><span class="wz-num">2</span><span class="wz-label">Dados</span></li>
+              <li data-step="3"><span class="wz-num">3</span><span class="wz-label">Confirmação</span></li>
+            </ol>
+            <div class="wizard-track"><div class="wizard-fill" id="wizard-fill"></div></div>
+          </nav>
+
+          <!-- PASSO 1 — Escolher sector -->
+          <div class="wizard-step" data-step="1" id="step-1">
+            <div class="wizard-step-head">
+              <h2>Escolha o seu sector</h2>
+              <p>Toque numa zona para a seleccionar.</p>
+            </div>
+            <div class="wizard-sectors" id="wizard-sectors"></div>
+            <div class="wizard-actions wizard-actions--single">
+              <button class="button event-button wz-next" id="wz-next-1" type="button" disabled>Continuar <i data-lucide="arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- PASSO 2 — Quantidade + dados -->
+          <div class="wizard-step" data-step="2" id="step-2" hidden>
+            <div class="wizard-step-head">
+              <h2>Quantos lugares?</h2>
+              <p>Ajuste a quantidade e preencha os seus dados.</p>
+            </div>
+
+            <div class="wizard-selected" id="wizard-selected"></div>
+
+            <div class="wizard-qty">
+              <button type="button" class="wz-qty-btn" id="wz-minus" aria-label="Menos lugares"><i data-lucide="minus"></i></button>
+              <div class="wz-qty-val"><strong id="wz-qty">1</strong><span id="wz-qty-label">lugar</span></div>
+              <button type="button" class="wz-qty-btn" id="wz-plus" aria-label="Mais lugares"><i data-lucide="plus"></i></button>
+            </div>
+            <p class="wz-qty-note" id="wz-avail"></p>
+
+            <div class="wizard-fields">
+              <div class="field"><input id="tk-nome" name="nome" type="text" placeholder=" " autocomplete="name" required><label for="tk-nome">Nome completo</label></div>
+              <div class="field"><input id="tk-telefone" name="telefone" type="tel" placeholder=" " autocomplete="tel" required><label for="tk-telefone">Telefone / WhatsApp</label></div>
+            </div>
+
+            <div class="wizard-subtotal">
+              <span>Total</span>
+              <strong id="wz-subtotal">0 Kz</strong>
+            </div>
+            <p class="wizard-status" id="wz-status" role="status" aria-live="polite"></p>
+
+            <div class="wizard-actions">
+              <button class="button wz-back" id="wz-back-2" type="button"><i data-lucide="arrow-left"></i> Voltar</button>
+              <button class="button event-button wz-next" id="wz-next-2" type="button">Continuar <i data-lucide="arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- PASSO 3 — Confirmação -->
+          <div class="wizard-step" data-step="3" id="step-3" hidden>
+            <div class="wizard-step-head">
+              <h2>Confirme a reserva</h2>
+              <p>Verifique os detalhes antes de confirmar.</p>
+            </div>
+
+            <div class="wizard-summary" id="wizard-summary"></div>
+
+            <div class="wizard-actions">
+              <button class="button wz-back" id="wz-back-3" type="button"><i data-lucide="arrow-left"></i> Voltar</button>
+              <button class="button event-button wz-confirm" id="wz-confirm" type="button">Confirmar reserva <i data-lucide="check"></i></button>
+            </div>
+            <p class="tk-disclaimer">Simulação de compra — nenhum pagamento é processado.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <dialog class="tk-dialog" id="tk-dialog" aria-labelledby="tk-dialog-title">
+        <button class="tk-dialog-close" type="button" aria-label="Fechar"><i data-lucide="x"></i></button>
+        <div class="tk-dialog-inner">
+          <span class="tk-dialog-check"><i data-lucide="check"></i></span>
+          <h3 id="tk-dialog-title">Reserva confirmada!</h3>
+          <p class="tk-dialog-ref">Referência: <strong id="tk-ref">CLEM-000000</strong></p>
+          <div class="tk-dialog-summary" id="tk-dialog-summary"></div>
+          <p class="tk-dialog-note">Esta é uma simulação. Para finalizar a reserva, envie o resumo pelo WhatsApp.</p>
+          <div class="tk-dialog-actions">
+            <button class="button event-button" id="tk-whatsapp" type="button">Enviar pelo WhatsApp <i data-lucide="arrow-up-right"></i></button>
+            <button class="tk-dialog-close2" type="button" id="tk-done">Concluído</button>
+          </div>
+        </div>
+      </dialog>
+    </section>
+  </main>
+
+  <footer class="tk-footer">
+    <div class="container tk-footer-inner">
+      <a class="tk-footer-brand" href="index.html">Clembetino</a>
+      <span>© 2026 Clembetino. Todos os direitos reservados.</span>
+    </div>
+  </footer>
+</body>
+</html>
