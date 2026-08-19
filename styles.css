@@ -367,6 +367,7 @@ blockquote { margin: 0; padding: 18px 0 18px 25px; border-left: 3px solid var(--
 .wizard-fill { height:100%; width:0; background:linear-gradient(90deg,var(--event),var(--event-deep)); border-radius:99px; transition:width .5s cubic-bezier(.2,.8,.2,1); }
 
 .wizard-step[hidden] { display:none !important; }
+.wizard-sectors[hidden], .wizard-picked[hidden] { display:none !important; }
 .wizard-step.is-active { animation:tkFadeUp .45s ease; }
 .wizard-step-head { text-align:center; margin-bottom:28px; }
 .wizard-step-head h2 { margin:0; font:700 clamp(26px,4vw,34px)/1.1 Montserrat; letter-spacing:-.03em; color:var(--navy); }
