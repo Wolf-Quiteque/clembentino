@@ -155,11 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
   sectorsEl.addEventListener('click', e => {
     const btn = e.target.closest('.wz-sector');
     if (!btn || btn.disabled) return;
-    document.querySelectorAll('.wz-sector').forEach(b => {
-      b.classList.toggle('selected', b === btn);
-      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
-    });
-    selectSector(btn.dataset.id);
+    window.location.href = 'https://aprenda-e-empreenda-com-elas.moevento.com';
   });
 
   // Deselect via the X / clicking the picked card again
