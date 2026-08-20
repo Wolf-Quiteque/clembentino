@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'centro-traseiro-2', name: 'Centro Traseiro 2', price: 17500, available: 56, total: 56, color: 'pw', img: 'assets/seat-center-back-2.jpg' },
     { id: 'traseira-lateral-esquerda-3', name: 'Traseira Lateral Esquerda 3', price: 10000, available: 15, total: 15, color: 'pw', img: 'assets/seat-back-left-3.jpg' },
     { id: 'centro-traseiro-1', name: 'Centro Traseiro 1', price: 7500, available: 26, total: 51, color: 'pb', img: 'assets/seat-center-back-1.jpg' },
-    { id: 'traseira-lateral-direita', name: 'Traseira Lateral Direita', price: 0, available: 0, total: 32, color: 'pb', img: 'assets/seat-back-right-soldout.jpg', soldout: true },
+    { id: 'centro-lateral-direita', name: 'Centro Lateral Direito', price: 0, available: 0, total: 32, color: 'pb', img: 'assets/seat-back-right-soldout.jpg', soldout: true },
+    { id: 'centro-lateral-esquerda', name: 'Centro Lateral Esquerdo', price: 0, available: 0, total: 32, color: 'pb', img: 'assets/seat-back-left-1.jpg', soldout: true },
     { id: 'traseira-frente', name: 'Traseira Frente', price: 0, available: 0, total: 12, color: 'pb', img: 'assets/seat-back-front-soldout.jpg', soldout: true },
   ];
 
