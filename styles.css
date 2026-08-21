@@ -348,7 +348,28 @@ blockquote { margin: 0; padding: 18px 0 18px 25px; border-left: 3px solid var(--
 }
 
 /* ===== Wizard de bilhetes ===== */
+.tickets-flow { display:flex; flex-direction:column; }
 .wizard { max-width:900px; margin:0 auto; }
+.tickets-flow #wizard { order:1; }
+.moevento-checkout { order:2; width:100%; max-width:900px; margin-top:72px; scroll-margin-top:34px; }
+.moevento-checkout .wizard-head { margin-bottom:28px; }
+.moevento-checkout .wizard-head h2 { margin:0; font:700 clamp(32px,5vw,48px)/1 Montserrat,sans-serif; letter-spacing:-.045em; color:var(--navy); }
+.moevento-checkout .wizard-head h2 em { color:var(--event); font-family:"Playfair Display",serif; font-weight:500; }
+.moevento-selection { display:grid; grid-template-columns:116px 1fr auto; gap:18px; align-items:center; margin-bottom:16px; padding:14px; background:#fff; border:2px solid var(--event); border-radius:16px; box-shadow:0 14px 38px rgba(237,11,140,.12); }
+.moevento-selection img { width:116px; height:82px; object-fit:cover; border-radius:10px; background:#f4f6fb; }
+.moevento-selection div { display:flex; flex-direction:column; gap:4px; min-width:0; }
+.moevento-selection span { color:var(--event); font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+.moevento-selection strong { color:var(--navy); font:700 18px/1.25 Montserrat,sans-serif; }
+.moevento-selection small { color:var(--event-deep); font:700 15px Montserrat,sans-serif; }
+.moevento-selection button { padding:10px 14px; border:1px solid var(--line); border-radius:99px; background:#fff7fb; color:var(--navy); font:700 12px DM Sans,sans-serif; cursor:pointer; transition:.2s; }
+.moevento-selection button:hover { border-color:var(--event); color:var(--event-deep); }
+.moevento-match-note { display:flex; align-items:flex-start; gap:10px; margin-bottom:16px; padding:13px 15px; border-radius:12px; background:#f3f7ff; color:var(--muted); }
+.moevento-match-note svg { width:18px; height:18px; flex:none; color:var(--event-deep); }
+.moevento-match-note p { margin:0; font-size:13px; line-height:1.5; }
+.moevento-match-note strong { color:var(--navy); }
+.moevento-widget-shell { min-height:260px; padding:22px; background:rgba(255,255,255,.62); border:1px solid rgba(237,11,140,.14); border-radius:20px; box-shadow:0 18px 50px rgba(15,31,46,.08); }
+#moevento-price-card-widget { width:100%; min-height:210px; }
+.moevento-widget-note { margin:18px 0 0; color:var(--muted); font-size:12px; text-align:center; }
 .wizard-head { text-align:center; margin-bottom:40px; }
 .wizard-head .eyebrow { justify-content:center; }
 .wizard-head h1 { margin:0; font:700 clamp(34px,5vw,56px)/1 Montserrat,sans-serif; letter-spacing:-.045em; color:var(--navy); }
@@ -367,7 +388,7 @@ blockquote { margin: 0; padding: 18px 0 18px 25px; border-left: 3px solid var(--
 .wizard-fill { height:100%; width:0; background:linear-gradient(90deg,var(--event),var(--event-deep)); border-radius:99px; transition:width .5s cubic-bezier(.2,.8,.2,1); }
 
 .wizard-step[hidden] { display:none !important; }
-.wizard-sectors[hidden], .wizard-picked[hidden] { display:none !important; }
+.wizard-sectors[hidden], .wizard-picked[hidden], .wizard-progress[hidden], .wizard-actions[hidden], .moevento-checkout[hidden] { display:none !important; }
 .wizard-step.is-active { animation:tkFadeUp .45s ease; }
 .wizard-step-head { text-align:center; margin-bottom:28px; }
 .wizard-step-head h2 { margin:0; font:700 clamp(26px,4vw,34px)/1.1 Montserrat; letter-spacing:-.03em; color:var(--navy); }
@@ -433,10 +454,15 @@ blockquote { margin: 0; padding: 18px 0 18px 25px; border-left: 3px solid var(--
 
 @media (max-width:720px) {
   .wizard-sectors { grid-template-columns:repeat(2,1fr); }
+  .moevento-selection { grid-template-columns:90px 1fr; }
+  .moevento-selection img { width:90px; height:72px; }
+  .moevento-selection button { grid-column:1/-1; width:100%; }
 }
 @media (max-width:460px) {
   .wizard-sectors { grid-template-columns:1fr; }
   .wizard-selected { flex-direction:column; text-align:center; }
+  .moevento-checkout { margin-top:52px; }
+  .moevento-widget-shell { padding:10px; border-radius:14px; }
 }
 
 /* ===== Sector pick (collapse) ===== */

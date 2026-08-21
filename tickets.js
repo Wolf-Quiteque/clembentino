@@ -2,19 +2,22 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.lucide) lucide.createIcons();
 
   const SECTORS = [
-    { id: 'frente-central', name: 'Frente Central', price: 35000, available: 11, total: 38, color: 'pw', img: 'assets/seat-front-center.jpg' },
-    { id: 'frente-lateral-esquerda', name: 'Frente Lateral Esquerda', price: 30000, available: 20, total: 40, color: 'pb', img: 'assets/seat-front-left.jpg' },
-    { id: 'frente-lateral-direita', name: 'Frente Lateral Direita', price: 30000, available: 20, total: 40, color: 'pb', img: 'assets/seat-front-right.jpg' },
-    { id: 'centro-1', name: 'Centro 1', price: 25000, available: 55, total: 105, color: 'pw', img: 'assets/seat-center-1.jpg' },
-    { id: 'traseira-lateral-direita-1', name: 'Traseira Lateral Direita 1', price: 20000, available: 40, total: 91, color: 'pb', img: 'assets/seat-back-right-1.jpg', note: '5 primeiras filas da frente' },
-    { id: 'traseira-lateral-esquerda-1', name: 'Traseira Lateral Esquerda 1', price: 20000, available: 40, total: 91, color: 'pb', img: 'assets/seat-back-left-1.jpg', note: '5 primeiras filas da frente' },
-    { id: 'centro-traseiro-2', name: 'Centro Traseiro 2', price: 17500, available: 56, total: 56, color: 'pw', img: 'assets/seat-center-back-2.jpg' },
-    { id: 'traseira-lateral-esquerda-3', name: 'Traseira Lateral Esquerda 3', price: 10000, available: 15, total: 15, color: 'pw', img: 'assets/seat-back-left-3.jpg' },
-    { id: 'centro-traseiro-1', name: 'Centro Traseiro 1', price: 7500, available: 26, total: 51, color: 'pb', img: 'assets/seat-center-back-1.jpg' },
+    { id: 'frente-central', moeventoId: '85c2f16e-bebe-417d-b88c-13a84250c0c9', checkoutName: 'Pink White - Assento Frente Central', name: 'Frente Central', price: 35000, available: 11, total: 38, color: 'pw', img: 'assets/seat-front-center.jpg' },
+    { id: 'frente-lateral-esquerda', moeventoId: '72d0d515-7d96-4f11-910e-8f5cac06b392', checkoutName: 'Pink Black - Assento Frente Lateral Esquerdo', name: 'Frente Lateral Esquerda', price: 30000, available: 20, total: 40, color: 'pb', img: 'assets/seat-front-left.jpg' },
+    { id: 'frente-lateral-direita', moeventoId: '6276ac46-7d2c-488b-9359-1b7a41c1b059', checkoutName: 'Pink Black - Assento Frente Lateral Direito', name: 'Frente Lateral Direita', price: 30000, available: 20, total: 40, color: 'pb', img: 'assets/seat-front-right.jpg' },
+    { id: 'centro-1', moeventoId: 'fe7ea10e-28c6-443a-af9a-74835df4e632', checkoutName: 'Pink White- Assento Centro 1', name: 'Centro 1', price: 25000, available: 55, total: 105, color: 'pw', img: 'assets/seat-center-1.jpg' },
+    { id: 'traseira-lateral-direita-1', moeventoId: 'dae9b0ba-1d05-4eff-93a7-fde8334fa51e', checkoutName: 'Pink Black - Assento Traseiro Lateral Direito 1', name: 'Traseira Lateral Direita 1', price: 20000, available: 40, total: 91, color: 'pb', img: 'assets/seat-back-right-1.jpg', note: '5 primeiras filas da frente' },
+    { id: 'traseira-lateral-esquerda-1', moeventoId: 'ce2c861e-d89c-4311-82da-6ea3aa14712b', checkoutName: 'Pink Black - Assento Traseiro Lateral esquerdo 1', name: 'Traseira Lateral Esquerda 1', price: 20000, available: 40, total: 91, color: 'pb', img: 'assets/seat-back-left-1.jpg', note: '5 primeiras filas da frente' },
+    { id: 'centro-traseiro-2', moeventoId: 'c5104047-3b51-48b8-9e70-25af34130d92', checkoutName: 'Pink White - Assento Centro traseiro 2', name: 'Centro Traseiro 2', price: 17500, available: 56, total: 56, color: 'pw', img: 'assets/seat-center-back-2.jpg' },
+    { id: 'traseira-lateral-direita-3', moeventoId: '8be6bf65-1e16-4e4a-8d3c-941fcd27d648', checkoutName: 'Pink White - Assento Traseiro Lateral Direito 3', name: 'Traseira Lateral Direita 3', price: 10000, available: 15, total: 15, color: 'pw', img: 'assets/seat-overview.png', note: 'Vista geral da zona traseira' },
+    { id: 'traseira-lateral-esquerda-3', moeventoId: '64397bcd-52e7-4c8b-84d1-5136c9a5ca27', checkoutName: 'Pink White - Assento Traseiro Lateral Esquerdo 3', name: 'Traseira Lateral Esquerda 3', price: 10000, available: 15, total: 15, color: 'pw', img: 'assets/seat-back-left-3.jpg' },
+    { id: 'centro-traseiro-1', moeventoId: '1cda3b62-5a4a-442d-b28a-8e0dbb40db85', checkoutName: 'Pink Black - Assento Centro Traseiro 1', name: 'Centro Traseiro 1', price: 7500, available: 26, total: 51, color: 'pb', img: 'assets/seat-center-back-1.jpg' },
     { id: 'centro-lateral-direita', name: 'Centro Lateral Direito', price: 0, available: 0, total: 32, color: 'pb', img: 'assets/seat-back-right-soldout.jpg', soldout: true },
     { id: 'centro-lateral-esquerda', name: 'Centro Lateral Esquerdo', price: 0, available: 0, total: 32, color: 'pb', img: 'assets/seat-back-left-1.jpg', soldout: true },
     { id: 'traseira-frente', name: 'Traseira Frente', price: 0, available: 0, total: 12, color: 'pb', img: 'assets/seat-back-front-soldout.jpg', soldout: true },
   ];
+
+  const MOEVENTO_EVENT_API = 'https://api.moevento.com/v1/events/aprenda-e-empreenda-com-elas/subdomain';
 
   const fmt = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   const state = { sector: null, qty: 1, step: 1 };
@@ -42,6 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const nomeInput = document.querySelector('#tk-nome');
   const telInput = document.querySelector('#tk-telefone');
   const dialog = document.querySelector('#tk-dialog');
+  const checkoutEl = document.querySelector('#moevento-checkout');
+  const checkoutImg = document.querySelector('#moevento-selected-img');
+  const checkoutName = document.querySelector('#moevento-selected-name');
+  const checkoutPrice = document.querySelector('#moevento-selected-price');
+  const checkoutTicketName = document.querySelector('#moevento-ticket-name');
+  const changeSectorBtn = document.querySelector('#moevento-change-sector');
 
   const sector = () => SECTORS.find(s => s.id === state.sector);
   const swatch = c => c === 'pb' ? '<i class="s-pink"></i><i class="s-black"></i>' : '<i class="s-pink"></i><i class="s-white"></i>';
@@ -88,6 +97,43 @@ document.addEventListener('DOMContentLoaded', () => {
     next1.disabled = false;
   }
 
+  function showCheckout() {
+    const s = sector();
+    checkoutImg.src = s.img;
+    checkoutImg.alt = 'Vista do sector — ' + s.name;
+    checkoutName.textContent = s.name;
+    checkoutPrice.textContent = fmt(s.price) + ' Kz / lugar';
+    checkoutTicketName.textContent = s.checkoutName || s.name;
+    checkoutEl.hidden = false;
+    retrigger(checkoutEl);
+    window.setTimeout(() => checkoutEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+  }
+
+  async function syncSectorsWithMoevento() {
+    try {
+      const response = await fetch(MOEVENTO_EVENT_API, { headers: { Accept: 'application/json' } });
+      if (!response.ok) return;
+      const event = await response.json();
+      const liveTickets = new Map((event.subscription_types || []).map(ticket => [ticket.id, ticket]));
+
+      SECTORS.filter(s => s.moeventoId).forEach(s => {
+        const liveTicket = liveTickets.get(s.moeventoId);
+        if (!liveTicket || liveTicket.sold_out || !liveTicket.enabled || liveTicket.registrations_blocked) {
+          s.available = 0;
+          s.soldout = true;
+          return;
+        }
+        s.price = Number(liveTicket.price);
+        s.checkoutName = liveTicket.name;
+        s.soldout = false;
+      });
+
+      renderSectors();
+    } catch {
+      // Keep the verified local seat information if Moevento is temporarily unavailable.
+    }
+  }
+
   function deselect() {
     state.sector = null;
     document.querySelectorAll('.wz-sector').forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed', 'false'); });
@@ -95,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sectorsEl.hidden = false;
     retrigger(sectorsEl);
     next1.disabled = true;
+    checkoutEl.hidden = true;
   }
 
   function showGrid() {
@@ -156,13 +203,23 @@ document.addEventListener('DOMContentLoaded', () => {
   sectorsEl.addEventListener('click', e => {
     const btn = e.target.closest('.wz-sector');
     if (!btn || btn.disabled) return;
-    window.location.href = 'https://aprenda-e-empreenda-com-elas.moevento.com';
+    document.querySelectorAll('.wz-sector').forEach(b => {
+      b.classList.toggle('selected', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    selectSector(btn.dataset.id);
+    showCheckout();
   });
 
   // Deselect via the X / clicking the picked card again
   pickedCard.addEventListener('click', deselect);
   pickedCard.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); deselect(); }
+  });
+
+  changeSectorBtn.addEventListener('click', () => {
+    deselect();
+    document.querySelector('#wizard').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
   next1.addEventListener('click', () => {
@@ -220,4 +277,5 @@ document.addEventListener('DOMContentLoaded', () => {
   dialog.addEventListener('click', e => { if (e.target === dialog) closeDialog(); });
 
   renderSectors();
+  syncSectorsWithMoevento();
 });

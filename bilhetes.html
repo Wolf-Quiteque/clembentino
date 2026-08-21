@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Montserrat:wght@600;700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=4">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
-  <script src="tickets.js?v=3" defer></script>
+  <script src="tickets.js?v=4" defer></script>
 </head>
 <body class="bilhetes-page">
   <a class="back-home" href="index.html" aria-label="Voltar à página inicial">
@@ -20,16 +20,45 @@
 
   <main id="conteudo">
     <section class="tickets" id="bilhetes" aria-labelledby="tickets-title">
-      <div class="container">
+      <div class="container tickets-flow">
+        <div class="wizard moevento-checkout" id="moevento-checkout" hidden>
+          <div class="wizard-head">
+            <p class="eyebrow"><span></span> Pagamento seguro</p>
+            <h2 id="moevento-checkout-title">Finalize a sua <em>compra.</em></h2>
+            <p class="wizard-sub">A sua escolha fica visível enquanto conclui a compra através da Moevento.</p>
+          </div>
+
+          <div class="moevento-selection" aria-live="polite">
+            <img id="moevento-selected-img" src="" alt="">
+            <div>
+              <span>A sua escolha</span>
+              <strong id="moevento-selected-name"></strong>
+              <small id="moevento-selected-price"></small>
+            </div>
+            <button type="button" id="moevento-change-sector">Alterar sector</button>
+          </div>
+
+          <div class="moevento-match-note">
+            <i data-lucide="info"></i>
+            <p>No formulário abaixo, escolha o bilhete <strong id="moevento-ticket-name"></strong>.</p>
+          </div>
+
+          <div class="moevento-widget-shell" aria-labelledby="moevento-checkout-title">
+            <div id="moevento-price-card-widget"></div>
+          </div>
+
+          <p class="moevento-widget-note">Pagamento e confirmação processados pela Moevento.</p>
+        </div>
+
         <div class="wizard" id="wizard">
 
           <div class="wizard-head">
             <p class="eyebrow"><span></span> Bilhetes</p>
             <h1 id="tickets-title">Reserve o seu <em>lugar.</em></h1>
-            <p class="wizard-sub">Simples e rápido — escolha o sector, preencha os dados e confirme.</p>
+            <p class="wizard-sub">Veja a localização de cada zona, escolha o seu sector e finalize a compra com segurança.</p>
           </div>
 
-          <nav class="wizard-progress" aria-label="Progresso da reserva">
+          <nav class="wizard-progress" aria-label="Progresso da reserva" hidden>
             <ol>
               <li class="active" data-step="1"><span class="wz-num">1</span><span class="wz-label">Sector</span></li>
               <li data-step="2"><span class="wz-num">2</span><span class="wz-label">Dados</span></li>
@@ -59,7 +88,7 @@
               </div>
             </div>
 
-            <div class="wizard-actions wizard-actions--single">
+            <div class="wizard-actions wizard-actions--single" hidden>
               <button class="button event-button wz-next" id="wz-next-1" type="button" disabled>Continuar <i data-lucide="arrow-right"></i></button>
             </div>
           </div>
@@ -139,5 +168,24 @@
       <span>© 2026 Clembetino. Todos os direitos reservados.</span>
     </div>
   </footer>
+  <script defer
+    src="https://aprenda-e-empreenda-com-elas.moevento.com/assets/js/iframe/price-card/embed.js"
+    data-event="aprenda-e-empreenda-com-elas"
+    data-background-color="fff7fb"
+    data-show-card-shadow="true"
+    data-card-shadow-color="0f1f2e"
+    data-primary-color="ed0b8c"
+    data-title-color="0f1f2e"
+    data-title="Compre aqui"
+    data-card-background-color="ffffff"
+    data-border-width="1"
+    data-border-color="e8dce8"
+    data-text-color="44546a"
+    data-price-text-color="a30b68"
+    data-button-background-color="0f1f2e"
+    data-button-text-color="ffffff"
+    data-input-label-color="44546a"
+    data-input-background-color="fff7fb">
+  </script>
 </body>
 </html>
