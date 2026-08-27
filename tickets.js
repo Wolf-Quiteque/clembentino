@@ -2,19 +2,15 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.lucide) lucide.createIcons();
 
   const SECTORS = [
-    { id: 'frente-central', moeventoId: '85c2f16e-bebe-417d-b88c-13a84250c0c9', checkoutName: 'Pink White - Assento Frente Central', name: 'Frente Central', price: 35000, available: 11, total: 38, color: 'pw', img: 'assets/seat-front-center.jpg' },
-    { id: 'frente-lateral-esquerda', moeventoId: '72d0d515-7d96-4f11-910e-8f5cac06b392', checkoutName: 'Pink Black - Assento Frente Lateral Esquerdo', name: 'Frente Lateral Esquerda', price: 30000, available: 20, total: 40, color: 'pb', img: 'assets/seat-front-left.jpg' },
-    { id: 'frente-lateral-direita', moeventoId: '6276ac46-7d2c-488b-9359-1b7a41c1b059', checkoutName: 'Pink Black - Assento Frente Lateral Direito', name: 'Frente Lateral Direita', price: 30000, available: 20, total: 40, color: 'pb', img: 'assets/seat-front-right.jpg' },
-    { id: 'centro-1', moeventoId: 'fe7ea10e-28c6-443a-af9a-74835df4e632', checkoutName: 'Pink White- Assento Centro 1', name: 'Centro 1', price: 20000, available: 55, total: 55, color: 'pw', img: 'assets/seat-center-1.jpg' },
-    { id: 'traseira-lateral-direita-1', moeventoId: 'dae9b0ba-1d05-4eff-93a7-fde8334fa51e', checkoutName: 'Pink Black - Assento Traseiro Lateral Direito 1', name: 'Traseira Lateral Direita 1', price: 20000, available: 40, total: 91, color: 'pb', img: 'assets/seat-back-right-1.jpg', note: '5 primeiras filas da frente' },
-    { id: 'traseira-lateral-esquerda-1', moeventoId: 'ce2c861e-d89c-4311-82da-6ea3aa14712b', checkoutName: 'Pink Black - Assento Traseiro Lateral esquerdo 1', name: 'Traseira Lateral Esquerda 1', price: 20000, available: 40, total: 91, color: 'pb', img: 'assets/seat-back-left-1.jpg', note: '5 primeiras filas da frente' },
-    { id: 'centro-traseiro-2', moeventoId: 'c5104047-3b51-48b8-9e70-25af34130d92', checkoutName: 'Pink White - Assento Centro traseiro', name: 'Centro Traseiro', price: 15000, available: 56, total: 56, color: 'pw', img: 'assets/seat-center-back-2.jpg' },
-    { id: 'traseira-lateral-direita-3', moeventoId: '8be6bf65-1e16-4e4a-8d3c-941fcd27d648', checkoutName: 'Pink White - Assento Traseiro Lateral Direito 3', name: 'Traseira Lateral Direita 3', price: 10000, available: 15, total: 15, color: 'pw', img: 'assets/seat-back-right-soldout.jpg', note: 'Parte dos 30 lugares disponíveis nas zonas laterais traseiras' },
-    { id: 'traseira-lateral-esquerda-3', moeventoId: '64397bcd-52e7-4c8b-84d1-5136c9a5ca27', checkoutName: 'Pink White - Assento Traseiro Lateral Esquerdo 3', name: 'Traseira Lateral Esquerda 3', price: 10000, available: 15, total: 15, color: 'pw', img: 'assets/seat-back-left-3.jpg' },
-    { id: 'centro-traseiro-1', moeventoId: '1cda3b62-5a4a-442d-b28a-8e0dbb40db85', checkoutName: 'Pink Black - Assento Centro Traseiro 1', name: 'Centro Traseiro 1', price: 7500, available: 26, total: 51, color: 'pb', img: 'assets/seat-center-back-1.jpg' },
-    { id: 'centro-lateral-direita', name: 'Centro Lateral Direito', price: 0, available: 0, total: 32, color: 'pb', img: 'assets/seat-back-right-soldout.jpg', soldout: true },
-    { id: 'centro-lateral-esquerda', name: 'Centro Lateral Esquerdo', price: 0, available: 0, total: 32, color: 'pb', img: 'assets/seat-back-left-1.jpg', soldout: true },
-    { id: 'traseira-frente', name: 'Traseira Frente', price: 0, available: 0, total: 12, color: 'pb', img: 'assets/seat-back-front-soldout.jpg', soldout: true },
+    { id: 'frente-central', checkoutName: 'Pink White - Assento Frente Central', name: 'Frente Central', price: 35000, available: 11, total: 11, color: 'pw', img: 'assets/seat-front-center.jpg' },
+    { id: 'frente-lateral', checkoutName: 'Pink Black - Assento Frente Lateral Direito e Esquerdo', name: 'Frente Lateral Direita e Esquerda', price: 30000, available: 40, total: 40, color: 'pb', img: 'assets/seat-front-right.jpg' },
+    { id: 'traseiro-lateral', checkoutName: 'Pink Black - Assento Traseiro Lateral Direito e Esquerdo', name: 'Traseiro Lateral Direito e Esquerdo', price: 20000, available: 80, total: 80, color: 'pb', img: 'assets/seat-back-right-1.jpg', note: '5 primeiras filas da frente' },
+    { id: 'centro-lateral', checkoutName: 'Pink Black - Assento Centro Lateral Direito e Esquerdo', name: 'Centro Lateral Direito e Esquerdo', price: 0, available: 0, total: 0, color: 'pb', img: 'assets/seat-back-right-soldout.jpg', soldout: true },
+    { id: 'centro-traseiro', checkoutName: 'Pink White - Assento Centro Traseiro', name: 'Centro Traseiro', price: 15000, available: 56, total: 56, color: 'pw', img: 'assets/seat-center-back-2.jpg' },
+    { id: 'centro-1', checkoutName: 'Pink White - Assento Centro 1', name: 'Centro 1', price: 20000, available: 55, total: 55, color: 'pw', img: 'assets/seat-center-1.jpg' },
+    { id: 'traseiro-lateral-3', checkoutName: 'Pink White - Assento Traseiro Lateral Esquerdo e Direito', name: 'Traseiro Lateral Esquerdo e Direito', price: 10000, available: 30, total: 30, color: 'pw', img: 'assets/seat-back-left-3.jpg' },
+    { id: 'centro-traseiro-1', checkoutName: 'Pink Black - Assento Centro Traseiro 1', name: 'Centro Traseiro 1', price: 7500, available: 26, total: 26, color: 'pb', img: 'assets/seat-center-back-1.jpg' },
+    { id: 'traseiro-frente', checkoutName: 'Pink Black - Assento Traseiro Frente', name: 'Traseiro Frente', price: 0, available: 0, total: 0, color: 'pb', img: 'assets/seat-back-front-soldout.jpg', soldout: true },
   ];
 
   const MOEVENTO_EVENT_API = 'https://api.moevento.com/v1/events/aprenda-e-empreenda-com-elas/subdomain';
