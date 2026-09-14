@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'centro-traseiro', checkoutName: 'Pink White - Assento Centro traseiro 2', name: 'Centro Traseiro 2', price: 15000, available: 56, total: 56, color: 'pw', img: 'assets/seat-center-back-2.jpg' },
     { id: 'centro-1', checkoutName: 'Pink White- Assento Centro 1', name: 'Centro 1', price: 22500, available: 55, total: 55, color: 'pw', img: 'assets/seat-center-1.jpg' },
     { id: 'traseiro-lateral-3', checkoutName: 'Pink White - Assento Traseiro Lateral Esquerdo e Direito', name: 'Traseiro Lateral Esquerdo e Direito', price: 10000, available: 30, total: 30, color: 'pw', img: 'assets/seat-back-left-3.jpg' },
-    { id: 'centro-traseiro-1', checkoutName: 'Pink Black - Assento Centro Traseiro 1', name: 'Centro Traseiro 1', price: 7500, available: 26, total: 26, color: 'pb', img: 'assets/seat-center-back-1.jpg' },
+    { id: 'centro-traseiro-1', checkoutName: 'Pink Black - Assento Centro Traseiro 1', name: 'Centro Traseiro 1', price: 7500, available: 0, total: 26, color: 'pb', img: 'assets/seat-center-back-1.jpg', soldout: true },
     { id: 'traseiro-frente', checkoutName: 'Pink Black - Assento Traseiro Frente', name: 'Traseiro Frente', price: 0, available: 0, total: 0, color: 'pb', img: 'assets/seat-back-front-soldout.jpg', soldout: true },
   ];
 
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <span class="wz-sector-body">
           <span class="wz-sector-name">${s.name}</span>
           <span class="wz-sector-meta">
-            <span class="wz-sector-price">${soldout ? '—' : fmt(s.price) + ' Kz'}</span>
+            <span class="wz-sector-price">${soldout ? (s.price > 0 ? '<s>' + fmt(s.price) + ' Kz</s>' : '—') : fmt(s.price) + ' Kz'}</span>
             <span class="wz-sector-avail">${soldout ? 'Esgotado' : s.available + ' disponíveis'}</span>
           </span>
           ${s.note ? `<span class="wz-sector-note">${s.note}</span>` : ''}

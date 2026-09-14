@@ -408,6 +408,8 @@ blockquote { margin: 0; padding: 18px 0 18px 25px; border-left: 3px solid var(--
 .wz-sector-price { font:700 17px Montserrat; color:var(--event-deep); letter-spacing:-.02em; }
 .wz-sector-avail { font-size:11px; font-weight:700; color:#288056; }
 .wz-sector.soldout .wz-sector-avail { color:#c84235; }
+.wz-sector.soldout .wz-sector-price { color:var(--muted); }
+.wz-sector.soldout .wz-sector-price s { text-decoration:line-through; text-decoration-color:#c84235; }
 .wz-sector-note { font-size:11px; color:var(--muted); }
 .wz-check { position:absolute; top:10px; right:10px; width:28px; height:28px; display:grid; place-items:center; border-radius:50%; background:#fff; border:2px solid #e6dbe2; color:transparent; transition:.25s; }
 .wz-check svg { width:15px; }
