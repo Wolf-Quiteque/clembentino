@@ -2,13 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.lucide) lucide.createIcons();
 
   const SECTORS = [
-    { id: 'frente-central', checkoutName: 'Pink White - Assento Frente Central', name: 'Frente Central', price: 35000, available: 11, total: 11, color: 'pw', img: 'assets/seat-front-center.jpg' },
+    { id: 'frente-central', checkoutName: 'Pink White - Assento Frente Central', name: 'Frente Central', price: 35000, available: 0, total: 11, color: 'pw', img: 'assets/seat-front-center.jpg', soldout: true },
     { id: 'frente-lateral', checkoutName: 'Pink Black - Assento Frente Lateral Direito e Esquerdo', name: 'Frente Lateral Direita e Esquerda', price: 30000, available: 40, total: 40, color: 'pb', img: 'assets/seat-front-right.jpg' },
     { id: 'traseiro-lateral', checkoutName: 'Pink Black - Assento Traseiro Lateral Direito e Esquerdo', name: 'Traseiro Lateral Direito e Esquerdo', price: 20000, available: 80, total: 80, color: 'pb', img: 'assets/seat-back-right-1.jpg', note: '5 primeiras filas da frente' },
     { id: 'centro-lateral', checkoutName: 'Pink Black - Assento Centro Lateral Direito e Esquerdo', name: 'Centro Lateral Direito e Esquerdo', price: 0, available: 0, total: 0, color: 'pb', img: 'assets/seat-back-right-soldout.jpg', soldout: true },
-    { id: 'centro-traseiro', checkoutName: 'Pink White - Assento Centro traseiro 2', name: 'Centro Traseiro 2', price: 15000, available: 56, total: 56, color: 'pw', img: 'assets/seat-center-back-2.jpg' },
+    { id: 'centro-traseiro', checkoutName: 'Pink White - Assento Centro traseiro 2', name: 'Centro Traseiro 2', price: 15000, available: 0, total: 56, color: 'pw', img: 'assets/seat-center-back-2.jpg', soldout: true },
     { id: 'centro-1', checkoutName: 'Pink White- Assento Centro 1', name: 'Centro 1', price: 22500, available: 55, total: 55, color: 'pw', img: 'assets/seat-center-1.jpg' },
-    { id: 'traseiro-lateral-3', checkoutName: 'Pink White - Assento Traseiro Lateral Esquerdo e Direito', name: 'Traseiro Lateral Esquerdo e Direito', price: 10000, available: 30, total: 30, color: 'pw', img: 'assets/seat-back-left-3.jpg' },
+    { id: 'traseiro-lateral-3', checkoutName: 'Pink White - Assento Traseiro Lateral Esquerdo e Direito', name: 'Traseiro Lateral Esquerdo e Direito', price: 10000, available: 0, total: 30, color: 'pw', img: 'assets/seat-back-left-3.jpg', soldout: true },
     { id: 'centro-traseiro-1', checkoutName: 'Pink Black - Assento Centro Traseiro 1', name: 'Centro Traseiro 1', price: 7500, available: 0, total: 26, color: 'pb', img: 'assets/seat-center-back-1.jpg', soldout: true },
     { id: 'traseiro-frente', checkoutName: 'Pink Black - Assento Traseiro Frente', name: 'Traseiro Frente', price: 0, available: 0, total: 0, color: 'pb', img: 'assets/seat-back-front-soldout.jpg', soldout: true },
   ];
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <span class="wz-sector-name">${s.name}</span>
           <span class="wz-sector-meta">
             <span class="wz-sector-price">${soldout ? (s.price > 0 ? '<s>' + fmt(s.price) + ' Kz</s>' : '—') : fmt(s.price) + ' Kz'}</span>
-            <span class="wz-sector-avail">${soldout ? 'Esgotado' : s.available + ' disponíveis'}</span>
+            <span class="wz-sector-avail">${soldout ? 'Esgotado' : 'Ingresso limitado disponível'}</span>
           </span>
           ${s.note ? `<span class="wz-sector-note">${s.note}</span>` : ''}
         </span>
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const s = sector();
     qtyVal.textContent = state.qty;
     qtyLabel.textContent = state.qty === 1 ? 'lugar' : 'lugares';
-    availEl.textContent = `${s.available} disponíveis neste sector`;
+    availEl.textContent = 'Ingresso limitado disponível neste sector';
     subtotalEl.textContent = fmt(s.price * state.qty) + ' Kz';
     qtyMinus.disabled = state.qty <= 1;
     qtyPlus.disabled = state.qty >= s.available;
