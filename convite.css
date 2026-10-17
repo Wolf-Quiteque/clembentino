@@ -31,6 +31,11 @@ svg.lucide { width: 18px; height: 18px; flex: none; }
 .shell { width: min(560px, 100% - 32px); margin: 0 auto; padding: 28px 0 56px; }
 .shell.wide { width: min(1120px, 100% - 32px); }
 
+/* Event flyer header (invite page) */
+.flyer-head { overflow: hidden; border-radius: var(--radius) var(--radius) 0 0; background: #fde6f2; }
+.flyer-head img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
+.flyer-head .flyer-band { margin: 0; padding: 9px 12px; background: var(--pink); color: #fff; text-align: center; font: 700 10.5px Montserrat, sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+
 /* Event banner — mirrors the PDF ticket header */
 .event-banner {
   position: relative; overflow: hidden; color: #fff; border-radius: var(--radius) var(--radius) 0 0;
