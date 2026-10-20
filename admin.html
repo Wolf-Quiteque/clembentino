@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Montserrat:wght@500;600;700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/convite.css?v=1">
+  <link rel="stylesheet" href="/convite.css?v=3">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
-  <script type="module" src="/admin.js?v=1"></script>
+  <script type="module" src="/admin.js?v=2"></script>
 </head>
 <body>
   <div class="glow a" aria-hidden="true"></div>
@@ -46,6 +46,7 @@
     <div class="stats">
       <div class="stat"><strong id="st-invites">0</strong><span>Convites</span></div>
       <div class="stat"><strong id="st-guests">0</strong><span>Lugares reservados</span></div>
+      <div class="stat"><strong id="st-in">0</strong><span>Já entraram</span></div>
       <div class="stat"><strong id="st-sms">0</strong><span>SMS falhados</span></div>
     </div>
 
@@ -79,6 +80,22 @@
         <div class="copy-row"><input readonly id="result-url"><button class="btn btn-navy btn-sm" id="result-copy"><i data-lucide="copy"></i> Copiar</button></div>
         <a class="btn btn-wa btn-sm" id="result-wa" target="_blank" rel="noopener"><i data-lucide="message-circle"></i> Enviar por WhatsApp</a>
       </div>
+    </section>
+
+    <section class="card card-body panel" id="team">
+      <div class="toolbar" style="margin-bottom:4px">
+        <h2 style="margin:0">Equipa do leitor</h2>
+        <a class="btn btn-ghost btn-sm" href="/scan" target="_blank" rel="noopener"><i data-lucide="scan-line"></i> Abrir leitor</a>
+      </div>
+      <p class="lead">Crie acessos para quem vai ler os bilhetes à entrada em <strong>/scan</strong>. Cada pessoa entra com o seu utilizador e palavra-passe.</p>
+      <form class="team-form" id="team-form" novalidate>
+        <div class="field"><label for="tm-name">Nome</label><input id="tm-name" maxlength="60" placeholder="Ex.: Joana Silva"></div>
+        <div class="field"><label for="tm-user">Utilizador</label><input id="tm-user" maxlength="32" autocapitalize="none" spellcheck="false" placeholder="Ex.: joana"></div>
+        <div class="field"><label for="tm-pass">Palavra-passe</label><input id="tm-pass" minlength="6" autocomplete="new-password" placeholder="Mínimo 6 caracteres"></div>
+        <button class="btn btn-pink" type="submit"><i data-lucide="user-plus"></i> Adicionar</button>
+      </form>
+      <p class="status" id="team-status" role="status" style="text-align:left"></p>
+      <div id="team-list"></div>
     </section>
 
     <section class="panel">

@@ -102,16 +102,67 @@ $('#result-copy').addEventListener('click', () => copy($('#result-url').value));
 
 // ---------- List ----------
 async function load() {
-  const data = await api('GET', '/api/admin/invites');
+  const [data, team] = await Promise.all([api('GET', '/api/admin/invites'), api('GET', '/api/admin/scanners')]);
   invites = data.invites;
   render();
+  renderTeam(team.users);
 }
+
+// ---------- Scanner team ----------
+function renderTeam(users) {
+  $('#team-list').innerHTML = !users.length
+    ? '<div class="empty-list">Ainda não há ninguém na equipa do leitor.</div>'
+    : `<table class="guests team"><thead><tr><th>Nome</th><th>Utilizador</th><th>Leituras</th><th></th></tr></thead><tbody>${users.map(u => `
+      <tr class="${u.active ? '' : 'off'}">
+        <td><strong>${esc(u.name)}</strong>${u.active ? '' : ' <span class="pill offp">Bloqueado</span>'}</td>
+        <td>${esc(u.username)}</td>
+        <td>${u.scans} ${u.scans === 1 ? 'entrada' : 'entradas'}</td>
+        <td class="row-actions">
+          <button class="btn btn-ghost btn-sm" data-pass="${u.id}" data-name="${esc(u.name)}"><i data-lucide="key-round"></i> Palavra-passe</button>
+          <button class="btn btn-ghost btn-sm" data-uactive="${u.id}" data-active="${u.active}">${u.active ? 'Bloquear' : 'Desbloquear'}</button>
+          <button class="btn btn-danger btn-sm icon-btn" data-udelete="${u.id}" aria-label="Apagar"><i data-lucide="trash-2"></i></button>
+        </td>
+      </tr>`).join('')}</tbody></table>`;
+  icons();
+}
+
+$('#team-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const status = $('#team-status'); status.textContent = '';
+  try {
+    await api('POST', '/api/admin/scanners', { name: $('#tm-name').value, username: $('#tm-user').value, password: $('#tm-pass').value });
+    toast(`Acesso criado para ${$('#tm-name').value.trim()}`);
+    $('#team-form').reset();
+    await load();
+  } catch (err) { status.textContent = err.message; }
+});
+
+$('#team-list').addEventListener('click', async e => {
+  const b = e.target.closest('button'); if (!b) return;
+  try {
+    if (b.dataset.pass) {
+      const pw = prompt(`Nova palavra-passe para ${b.dataset.name} (mínimo 6 caracteres):`);
+      if (!pw) return;
+      await api('PATCH', '/api/admin/scanners', { id: Number(b.dataset.pass), password: pw });
+      toast('Palavra-passe alterada');
+    } else if (b.dataset.uactive) {
+      await api('PATCH', '/api/admin/scanners', { id: Number(b.dataset.uactive), active: b.dataset.active !== 'true' });
+      toast(b.dataset.active === 'true' ? 'Acesso bloqueado' : 'Acesso desbloqueado');
+    } else if (b.dataset.udelete) {
+      if (!confirm('Apagar este acesso ao leitor?')) return;
+      await api('DELETE', '/api/admin/scanners?id=' + b.dataset.udelete);
+      toast('Acesso apagado');
+    } else return;
+    await load();
+  } catch (err) { toast(err.message); }
+});
 
 function render() {
   const guests = invites.flatMap(i => i.guests);
   $('#st-invites').textContent = invites.length;
   $('#st-guests').textContent = guests.length;
   $('#st-sms').textContent = guests.filter(g => g.smsStatus === 'failed').length;
+  $('#st-in').textContent = guests.filter(g => g.checkedInAt).length;
 
   const q = $('#search').value.trim().toLowerCase();
   const list = invites.filter(i => !q || [i.label, seatById(i.seatId)?.name, ...i.guests.flatMap(g => [g.name, g.phone, g.ticketCode])]
@@ -132,7 +183,8 @@ function render() {
       <tr>
         <td><strong>${esc(g.name)}</strong>${g.isPrimary ? ' <span class="badge">Principal</span>' : ''}</td>
         <td>${esc(g.phone)}</td>
-        <td><a href="${esc(g.ticketUrl)}" target="_blank" rel="noopener">${esc(g.ticketCode)}</a></td>
+        <td><a href="${esc(g.ticketUrl)}" target="_blank" rel="noopener">${esc(g.ticketCode)}</a>
+          ${g.checkedInAt ? `<br><span class="sms-ok" title="${esc(g.checkedInBy || '')}">Entrou às ${new Date(g.checkedInAt).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })}</span>` : ''}</td>
         <td>${g.smsStatus === 'sent' ? '<span class="sms-ok">SMS enviado</span>' : `<span class="sms-bad" title="${esc(g.smsError || '')}">SMS falhou</span>`}
           <button class="btn btn-ghost btn-sm" data-resend="${g.id}" style="margin-left:6px">Reenviar</button></td>
       </tr>`).join('');

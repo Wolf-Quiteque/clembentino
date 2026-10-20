@@ -249,3 +249,17 @@ h1, h2, h3 { font-family: Montserrat, sans-serif; letter-spacing: -.02em; color:
   .guests td { padding: 0; border: 0; }
   .admin-bar .brand img { width: 90px; }
 }
+
+/* Admin — scanner team */
+.stats { grid-template-columns: repeat(4, 1fr); }
+.team-form { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 12px; align-items: end; }
+.team-form .field { margin: 0; }
+.team-form .btn { min-height: 52px; }
+.guests.team tr.off { opacity: .6; }
+.row-actions { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; }
+@media (max-width: 720px) {
+  .stats { grid-template-columns: 1fr 1fr; }
+  .team-form { grid-template-columns: 1fr; }
+  .guests.team tr { grid-template-columns: 1fr; }
+  .row-actions { justify-content: flex-start; margin-top: 6px; }
+}

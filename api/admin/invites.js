@@ -14,7 +14,8 @@ export default async function handler(req, res) {
       const rows = await sql`
         SELECT i.*, COALESCE(json_agg(json_build_object(
             'id', g.id, 'name', g.name, 'phone', g.phone, 'isPrimary', g.is_primary, 'ticketCode', g.ticket_code,
-            'smsStatus', g.sms_status, 'smsError', g.sms_error, 'createdAt', g.created_at
+            'smsStatus', g.sms_status, 'smsError', g.sms_error, 'createdAt', g.created_at,
+            'checkedInAt', g.checked_in_at, 'checkedInBy', g.checked_in_by
           ) ORDER BY g.is_primary DESC, g.created_at) FILTER (WHERE g.id IS NOT NULL), '[]') AS guests
         FROM invites i LEFT JOIN guests g ON g.invite_id = i.id
         GROUP BY i.id ORDER BY i.created_at DESC`;

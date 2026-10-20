@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-AO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d1d35">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Leitor de Bilhetes | Clembetino</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/convite.css?v=3">
+  <link rel="stylesheet" href="/scan.css?v=1">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="/scan.js?v=1" defer></script>
+</head>
+<body class="scan-page">
+  <!-- Login -->
+  <main class="shell" id="login-view" hidden>
+    <header class="flyer-head">
+      <img src="/assets/flyer-convite.jpg" alt="Cartaz da conferência Aprenda &amp; Empreenda com Elas" width="1100" height="1375">
+      <p class="flyer-band">Leitor de bilhetes · Entrada do evento</p>
+    </header>
+    <form class="card joined card-body" id="login-form" novalidate>
+      <p class="label">Equipa de entrada</p>
+      <h2>Entrar no leitor</h2>
+      <div class="field"><label for="user">Utilizador</label><input id="user" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
+      <div class="field"><label for="pass">Palavra-passe</label><input id="pass" type="password" autocomplete="current-password" required></div>
+      <button class="btn btn-pink btn-block" type="submit">Entrar <i data-lucide="scan-line"></i></button>
+      <p class="status" role="status"></p>
+    </form>
+  </main>
+
+  <!-- Scanner -->
+  <main class="scanner" id="scan-view" hidden>
+    <header class="sc-bar">
+      <div><small>Leitor de bilhetes</small><strong id="sc-name"></strong></div>
+      <div class="sc-count" title="Entradas confirmadas / bilhetes emitidos"><b id="sc-inside">0</b><span>/ <span id="sc-total">0</span> entraram</span></div>
+      <button class="sc-icon" id="sc-logout" aria-label="Sair"><i data-lucide="log-out"></i></button>
+    </header>
+
+    <div class="sc-stage">
+      <video id="video" playsinline muted></video>
+      <div class="sc-frame" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="sc-line"></span></div>
+      <div class="sc-msg" id="sc-msg">A iniciar a câmara…</div>
+    </div>
+
+    <form class="sc-manual" id="manual">
+      <input id="manual-code" placeholder="Ou escreva o código: AE-XXXX-XXXX" autocapitalize="characters" autocomplete="off" spellcheck="false">
+      <button class="btn btn-pink" type="submit" aria-label="Verificar"><i data-lucide="search"></i></button>
+    </form>
+  </main>
+
+  <!-- Result -->
+  <section class="sc-result" id="result" hidden aria-live="assertive">
+    <div class="sc-res-inner">
+      <span class="sc-res-icon" id="res-icon"></span>
+      <p class="sc-res-title" id="res-title"></p>
+      <p class="sc-res-msg" id="res-msg"></p>
+      <div class="sc-guest" id="res-guest"></div>
+      <button class="btn btn-block sc-next" id="res-next">Ler próximo bilhete <i data-lucide="scan-line"></i></button>
+      <p class="sc-auto" id="res-auto"></p>
+    </div>
+  </section>
+</body>
+</html>
