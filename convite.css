@@ -263,3 +263,26 @@ h1, h2, h3 { font-family: Montserrat, sans-serif; letter-spacing: -.02em; color:
   .guests.team tr { grid-template-columns: 1fr; }
   .row-actions { justify-content: flex-start; margin-top: 6px; }
 }
+
+/* Dinner page */
+.dinner-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
+.dinner-facts > div { display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 14px; background: var(--blush); }
+.dinner-facts .wide { grid-column: 1 / -1; }
+.dinner-facts svg { color: var(--pink); }
+.dinner-facts small { display: block; color: var(--muted); font: 700 9.5px Montserrat, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+.dinner-facts strong { font: 700 14.5px Montserrat, sans-serif; color: var(--navy); }
+.dinner-facts .price { background: linear-gradient(135deg, var(--pink), var(--deep)); }
+.dinner-facts .price svg, .dinner-facts .price strong { color: #fff; }
+.dinner-facts .price small { color: rgba(255,255,255,.8); }
+.dinner-facts .price strong { font-size: 20px; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.state .dinner-facts svg { width: 18px; height: 18px; margin: 0; }
+.pay-note { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; padding: 12px 14px; border: 1.5px dashed var(--pink); border-radius: 14px; color: var(--deep); font-size: 14px; font-weight: 600; text-align: left; }
+.pay-note a { color: var(--pink); font-weight: 800; white-space: nowrap; }
+.state .pay-note { margin-top: 14px; }
+.state .pay-note svg { width: 18px; height: 18px; margin: 0; flex: none; }
+.seats-left { margin: -6px 0 18px; text-align: center; color: var(--bad); font: 700 14px Montserrat, sans-serif; }
+.btn-paid { background: #eaf7f0; color: var(--ok); }
+.btn-paid:hover { background: #d6f0e2; }
+.guests tr.is-paid td:first-child strong { color: var(--ok); }
+#dinner h2 .pill { vertical-align: middle; font-size: 11px; }

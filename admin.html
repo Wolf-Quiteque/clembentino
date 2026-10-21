@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Montserrat:wght@500;600;700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/convite.css?v=3">
+  <link rel="stylesheet" href="/convite.css?v=6">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
-  <script type="module" src="/admin.js?v=2"></script>
+  <script type="module" src="/admin.js?v=5"></script>
 </head>
 <body>
   <div class="glow a" aria-hidden="true"></div>
@@ -80,6 +80,18 @@
         <div class="copy-row"><input readonly id="result-url"><button class="btn btn-navy btn-sm" id="result-copy"><i data-lucide="copy"></i> Copiar</button></div>
         <a class="btn btn-wa btn-sm" id="result-wa" target="_blank" rel="noopener"><i data-lucide="message-circle"></i> Enviar por WhatsApp</a>
       </div>
+    </section>
+
+    <section class="card card-body panel" id="dinner">
+      <div class="toolbar" style="margin-bottom:4px">
+        <h2 style="margin:0">Reservas do jantar <span class="pill full" id="dn-count">0</span> <span class="pill on" id="dn-paid"></span></h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" id="dn-csv"><i data-lucide="download"></i> Exportar CSV</button>
+          <a class="btn btn-ghost btn-sm" href="/jantar" target="_blank" rel="noopener"><i data-lucide="utensils"></i> Abrir página</a>
+        </div>
+      </div>
+      <p class="lead">Quem se inscreveu em <strong>/jantar</strong> — Sexta, 23 Out · 19h00 · Pés n'Areia · 30.000 Kz. As reservas fecham automaticamente ao chegar ao limite. Quando alguém pagar, clique em <strong>Confirmar pagamento</strong>.</p>
+      <div id="dinner-list"></div>
     </section>
 
     <section class="card card-body panel" id="team">
