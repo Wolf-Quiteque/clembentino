@@ -1,6 +1,7 @@
 import { sql, ensureSchema } from '../../lib/db.js';
 import { formatPhone, isAdmin, readBody, send } from '../../lib/util.js';
 import { sendDinnerSms } from '../../lib/dinner.js';
+import { DINNER } from '../../lib/event.js';
 
 export default async function handler(req, res) {
   if (!process.env.ADMIN_PASSWORD) return send(res, 500, { error: 'ADMIN_PASSWORD não está configurado no Vercel.' });
@@ -11,6 +12,7 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
       const rows = await sql`SELECT * FROM dinner_reservations ORDER BY created_at DESC`;
       return send(res, 200, {
+        capacity: DINNER.capacity,
         reservations: rows.map(r => ({ id: r.id, name: r.name, phone: formatPhone(r.phone), smsStatus: r.sms_status, smsError: r.sms_error, createdAt: r.created_at })),
       });
     }

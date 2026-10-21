@@ -277,3 +277,8 @@ h1, h2, h3 { font-family: Montserrat, sans-serif; letter-spacing: -.02em; color:
 .dinner-facts .price strong { font-size: 20px; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .state .dinner-facts svg { width: 18px; height: 18px; margin: 0; }
+.pay-note { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; padding: 12px 14px; border: 1.5px dashed var(--pink); border-radius: 14px; color: var(--deep); font-size: 14px; font-weight: 600; text-align: left; }
+.pay-note a { color: var(--pink); font-weight: 800; white-space: nowrap; }
+.state .pay-note { margin-top: 14px; }
+.state .pay-note svg { width: 18px; height: 18px; margin: 0; flex: none; }
+.seats-left { margin: -6px 0 18px; text-align: center; color: var(--bad); font: 700 14px Montserrat, sans-serif; }

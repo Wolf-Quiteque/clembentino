@@ -106,14 +106,14 @@ async function load() {
   invites = data.invites;
   render();
   renderTeam(team.users);
-  renderDinner(dinner.reservations);
+  renderDinner(dinner.reservations, dinner.capacity);
 }
 
 // ---------- Dinner reservations ----------
 let dinnerRows = [];
-function renderDinner(rows) {
+function renderDinner(rows, capacity) {
   dinnerRows = rows;
-  $('#dn-count').textContent = rows.length;
+  $('#dn-count').textContent = `${rows.length} / ${capacity}`;
   $('#dinner-list').innerHTML = !rows.length
     ? '<div class="empty-list">Ainda não há reservas para o jantar.</div>'
     : `<table class="guests"><thead><tr><th>Nome</th><th>Telefone</th><th>Data</th><th>SMS</th><th></th></tr></thead><tbody>${rows.map(r => `
