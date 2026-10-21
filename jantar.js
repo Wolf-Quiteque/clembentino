@@ -1,5 +1,10 @@
 (() => {
   const icons = () => window.lucide && lucide.createIcons();
+  const WA_ICON = document.querySelector('#pay-wa .wa-icon')?.outerHTML || '';
+  const payLink = name => {
+    const text = `Olá! Reservei lugar para o Jantar Pós-Conferência Aprenda & Empreenda com Elas${name ? ` em nome de ${name}` : ''} e gostaria de efectuar o pagamento de 30.000 Kz.`;
+    return `<a class="pay-wa" href="https://wa.me/244942218877?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">${WA_ICON}<span>Para efectuar o pagamento, entre em contacto com <b>942 218 877</b> no WhatsApp</span><i data-lucide="arrow-up-right"></i></a>`;
+  };
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const form = document.querySelector('#rsvp');
   const status = form.querySelector('.status');
@@ -50,7 +55,7 @@
             <div class="wide"><i data-lucide="map-pin"></i><span><small>Local</small><strong>Pés n'Areia Beach Restaurant</strong></span></div>
             <div class="wide price"><i data-lucide="ticket"></i><span><small>Valor por pessoa</small><strong>30.000 Kz</strong></span></div>
           </div>
-          <p class="pay-note"><i data-lucide="phone"></i><span>Para efectuar o pagamento, contacte <a href="tel:+244942218877">942 218 877</a>.</span></p>
+          ${payLink(name)}
           <a class="btn btn-ghost btn-block" style="margin-top:6px" href="/">Voltar ao site</a>
         </div>`;
       icons();
