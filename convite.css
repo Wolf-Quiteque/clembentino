@@ -286,3 +286,14 @@ h1, h2, h3 { font-family: Montserrat, sans-serif; letter-spacing: -.02em; color:
 .btn-paid:hover { background: #d6f0e2; }
 .guests tr.is-paid td:first-child strong { color: var(--ok); }
 #dinner h2 .pill { vertical-align: middle; font-size: 11px; }
+
+/* WhatsApp payment link (dinner) */
+.pay-wa { display: flex; align-items: center; gap: 12px; margin: 0 0 18px; padding: 13px 14px; border-radius: 14px; background: #e9f9ef; border: 1.5px solid #b9ebcb; color: #116b3a; font-size: 14px; font-weight: 600; text-align: left; text-decoration: none; transition: transform .2s, background .2s, box-shadow .2s; }
+.pay-wa:hover { transform: translateY(-2px); background: #dcf6e6; box-shadow: 0 10px 24px rgba(31,174,91,.18); }
+.pay-wa .wa-icon { width: 34px; height: 34px; flex: none; padding: 7px; border-radius: 50%; background: #25d366; color: #fff; }
+.pay-wa span { flex: 1; }
+.pay-wa b { white-space: nowrap; color: #0b5a2f; }
+.pay-wa svg.lucide { color: #1fae5b; }
+.state .pay-wa { margin-top: 14px; }
+.state .pay-wa svg.lucide { width: 18px; height: 18px; margin: 0; }
+.state .pay-wa .wa-icon { width: 34px; height: 34px; margin: 0; color: #fff; }
