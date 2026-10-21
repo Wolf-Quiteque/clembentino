@@ -102,11 +102,57 @@ $('#result-copy').addEventListener('click', () => copy($('#result-url').value));
 
 // ---------- List ----------
 async function load() {
-  const [data, team] = await Promise.all([api('GET', '/api/admin/invites'), api('GET', '/api/admin/scanners')]);
+  const [data, team, dinner] = await Promise.all([api('GET', '/api/admin/invites'), api('GET', '/api/admin/scanners'), api('GET', '/api/admin/jantar')]);
   invites = data.invites;
   render();
   renderTeam(team.users);
+  renderDinner(dinner.reservations);
 }
+
+// ---------- Dinner reservations ----------
+let dinnerRows = [];
+function renderDinner(rows) {
+  dinnerRows = rows;
+  $('#dn-count').textContent = rows.length;
+  $('#dinner-list').innerHTML = !rows.length
+    ? '<div class="empty-list">Ainda não há reservas para o jantar.</div>'
+    : `<table class="guests"><thead><tr><th>Nome</th><th>Telefone</th><th>Data</th><th>SMS</th><th></th></tr></thead><tbody>${rows.map(r => `
+      <tr>
+        <td><strong>${esc(r.name)}</strong></td>
+        <td>${esc(r.phone)}</td>
+        <td>${new Date(r.createdAt).toLocaleString('pt-PT', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</td>
+        <td>${r.smsStatus === 'sent' ? '<span class="sms-ok">SMS enviado</span>' : `<span class="sms-bad" title="${esc(r.smsError || '')}">SMS falhou</span>`}</td>
+        <td class="row-actions">
+          <button class="btn btn-ghost btn-sm" data-dresend="${r.id}">Reenviar SMS</button>
+          <button class="btn btn-danger btn-sm icon-btn" data-ddelete="${r.id}" aria-label="Apagar"><i data-lucide="trash-2"></i></button>
+        </td>
+      </tr>`).join('')}</tbody></table>`;
+  icons();
+}
+
+$('#dinner-list').addEventListener('click', async e => {
+  const b = e.target.closest('button'); if (!b) return;
+  try {
+    if (b.dataset.dresend) {
+      b.disabled = true; b.textContent = 'A enviar…';
+      await api('POST', '/api/admin/jantar', { id: Number(b.dataset.dresend) });
+      toast('SMS reenviado');
+    } else if (b.dataset.ddelete) {
+      if (!confirm('Apagar esta reserva do jantar?')) return;
+      await api('DELETE', '/api/admin/jantar?id=' + b.dataset.ddelete);
+      toast('Reserva apagada');
+    } else return;
+    await load();
+  } catch (err) { toast(err.message); await load().catch(() => {}); }
+});
+
+$('#dn-csv').addEventListener('click', () => {
+  const cell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const lines = [['Nome', 'Telefone', 'Data da reserva', 'SMS'], ...dinnerRows.map(r => [r.name, r.phone, new Date(r.createdAt).toLocaleString('pt-PT'), r.smsStatus === 'sent' ? 'Enviado' : 'Falhou'])];
+  const blob = new Blob(['\ufeff' + lines.map(l => l.map(cell).join(';')).join('\n')], { type: 'text/csv;charset=utf-8' });
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'reservas-jantar.csv' });
+  document.body.append(a); a.click(); a.remove();
+});
 
 // ---------- Scanner team ----------
 function renderTeam(users) {
