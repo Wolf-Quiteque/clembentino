@@ -13,7 +13,7 @@ export default async function handler(req, res) {
       const rows = await sql`SELECT * FROM dinner_reservations ORDER BY created_at DESC`;
       return send(res, 200, {
         capacity: DINNER.capacity,
-        reservations: rows.map(r => ({ id: r.id, name: r.name, phone: formatPhone(r.phone), smsStatus: r.sms_status, smsError: r.sms_error, createdAt: r.created_at })),
+        reservations: rows.map(r => ({ id: r.id, name: r.name, phone: formatPhone(r.phone), smsStatus: r.sms_status, smsError: r.sms_error, createdAt: r.created_at, paidAt: r.paid_at })),
       });
     }
 
@@ -22,6 +22,13 @@ export default async function handler(req, res) {
       if (!r) return send(res, 404, { error: 'Reserva não encontrada.' });
       const result = await sendDinnerSms(r);
       return send(res, result.ok ? 200 : 502, result.ok ? { ok: true } : { error: 'Falha no envio do SMS: ' + result.error });
+    }
+
+    if (req.method === 'PATCH') {
+      const body = readBody(req);
+      if (body.paid) await sql`UPDATE dinner_reservations SET paid_at = NOW() WHERE id = ${Number(body.id)} AND paid_at IS NULL`;
+      else await sql`UPDATE dinner_reservations SET paid_at = NULL WHERE id = ${Number(body.id)}`;
+      return send(res, 200, { ok: true });
     }
 
     if (req.method === 'DELETE') {

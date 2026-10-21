@@ -113,16 +113,24 @@ async function load() {
 let dinnerRows = [];
 function renderDinner(rows, capacity) {
   dinnerRows = rows;
+  const paid = rows.filter(r => r.paidAt).length;
   $('#dn-count').textContent = `${rows.length} / ${capacity}`;
+  $('#dn-paid').textContent = `${paid} ${paid === 1 ? 'pago' : 'pagos'} · ${rows.length - paid} por pagar`;
   $('#dinner-list').innerHTML = !rows.length
     ? '<div class="empty-list">Ainda não há reservas para o jantar.</div>'
-    : `<table class="guests"><thead><tr><th>Nome</th><th>Telefone</th><th>Data</th><th>SMS</th><th></th></tr></thead><tbody>${rows.map(r => `
-      <tr>
+    : `<table class="guests"><thead><tr><th>Nome</th><th>Telefone</th><th>Data</th><th>SMS</th><th>Pagamento</th><th></th></tr></thead><tbody>${rows.map(r => `
+      <tr class="${r.paidAt ? 'is-paid' : ''}">
         <td><strong>${esc(r.name)}</strong></td>
         <td>${esc(r.phone)}</td>
         <td>${new Date(r.createdAt).toLocaleString('pt-PT', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</td>
         <td>${r.smsStatus === 'sent' ? '<span class="sms-ok">SMS enviado</span>' : `<span class="sms-bad" title="${esc(r.smsError || '')}">SMS falhou</span>`}</td>
+        <td>${r.paidAt
+          ? `<span class="pill on">Pago · ${new Date(r.paidAt).toLocaleString('pt-PT', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>`
+          : '<span class="pill full">Por pagar</span>'}</td>
         <td class="row-actions">
+          ${r.paidAt
+            ? `<button class="btn btn-ghost btn-sm" data-dpaid="${r.id}" data-paid="true">Anular pagamento</button>`
+            : `<button class="btn btn-sm btn-paid" data-dpaid="${r.id}" data-paid="false" data-name="${esc(r.name)}"><i data-lucide="badge-check"></i> Confirmar pagamento</button>`}
           <button class="btn btn-ghost btn-sm" data-dresend="${r.id}">Reenviar SMS</button>
           <button class="btn btn-danger btn-sm icon-btn" data-ddelete="${r.id}" aria-label="Apagar"><i data-lucide="trash-2"></i></button>
         </td>
@@ -133,7 +141,13 @@ function renderDinner(rows, capacity) {
 $('#dinner-list').addEventListener('click', async e => {
   const b = e.target.closest('button'); if (!b) return;
   try {
-    if (b.dataset.dresend) {
+    if (b.dataset.dpaid) {
+      const paying = b.dataset.paid !== 'true';
+      if (paying && !confirm(`Confirmar o pagamento de 30.000 Kz de ${b.dataset.name}?`)) return;
+      if (!paying && !confirm('Anular a confirmação de pagamento desta reserva?')) return;
+      await api('PATCH', '/api/admin/jantar', { id: Number(b.dataset.dpaid), paid: paying });
+      toast(paying ? 'Pagamento confirmado' : 'Pagamento anulado');
+    } else if (b.dataset.dresend) {
       b.disabled = true; b.textContent = 'A enviar…';
       await api('POST', '/api/admin/jantar', { id: Number(b.dataset.dresend) });
       toast('SMS reenviado');
@@ -148,7 +162,7 @@ $('#dinner-list').addEventListener('click', async e => {
 
 $('#dn-csv').addEventListener('click', () => {
   const cell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
-  const lines = [['Nome', 'Telefone', 'Data da reserva', 'SMS'], ...dinnerRows.map(r => [r.name, r.phone, new Date(r.createdAt).toLocaleString('pt-PT'), r.smsStatus === 'sent' ? 'Enviado' : 'Falhou'])];
+  const lines = [['Nome', 'Telefone', 'Data da reserva', 'SMS', 'Pagamento', 'Data do pagamento'], ...dinnerRows.map(r => [r.name, r.phone, new Date(r.createdAt).toLocaleString('pt-PT'), r.smsStatus === 'sent' ? 'Enviado' : 'Falhou', r.paidAt ? 'Pago' : 'Por pagar', r.paidAt ? new Date(r.paidAt).toLocaleString('pt-PT') : ''])];
   const blob = new Blob(['\ufeff' + lines.map(l => l.map(cell).join(';')).join('\n')], { type: 'text/csv;charset=utf-8' });
   const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'reservas-jantar.csv' });
   document.body.append(a); a.click(); a.remove();
